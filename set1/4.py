@@ -7,7 +7,7 @@ def main():
         sum += an
         isqrt += 1
         an += 2
-    print(isqrt)
+    print("isqrt:", isqrt)
     
 
 main()
