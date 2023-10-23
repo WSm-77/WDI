@@ -9,22 +9,20 @@ def sumOfDigits(number):
     return sum
 
 def isPrime(number):
-    if number == 1 or number == 0:
-        return False
-    elif number == 2:
+    if number==2 or number==3: 
         return True
-    elif number % 2 == 0:
+    elif number <= 1 or number % 2 == 0 or number % 3 == 0: 
         return False
     else:
-        div = 3
-        iroot = isqrt(number)
-        while div <= iroot:
-            if number % div == 0:
+        div = 5
+        while div <= isqrt(number):
+            if number % div == 0: 
                 return False
             div += 2
+            if number % div == 0: 
+                return False
+            div += 4
         #end while
-    #end if
-
     return True
 
 def isSmithNumber(number):
@@ -56,7 +54,7 @@ def isSmithNumber(number):
 
             if div > iroot:
                 isMaxDiv = True
-                updatedDiv = True
+                break
 
             if isPrime(div):
                 updatedDiv = True
