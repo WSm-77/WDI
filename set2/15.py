@@ -9,7 +9,7 @@ from math import log10
 #                       |   |
 # index:            4 3 2 1 0
 def currentDigitValue(number, index):
-    return number % (10 ** (index + 1)) // (10 ** index)
+    return (number // (10 ** index)) % 10
 
 def buildNumbers(numLength):
     number = 10 ** (numberLen - 1)
