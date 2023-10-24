@@ -1,15 +1,8 @@
 EPS = 1e-10
 
-# def factorial(n):
-#     if n == 0:
-#         return 1
-    
-#     factorial = 1
-
-#     for i in range (1, n + 1):
-#         factorial *= i
-    
-#     return factorial
+##################
+# first solution #
+##################
 
 def claculateEulerConst():
     coutner = 2
@@ -26,5 +19,21 @@ def claculateEulerConst():
 
     return e
 
+###################
+# second solution #
+###################
+
+def calculateE():
+    e = 0.0
+    an = 1.0
+    cntr = 1
+    while an > EPS:
+        e += an
+        an /= cntr
+        cntr += 1
+    #end while
+    return e
+
 if __name__ == '__main__':
-    print("Euler Constant:", claculateEulerConst())
+    print("Euler Constant (first solution):", claculateEulerConst())
+    print("Euler Constant (second solution):", calculateE())
