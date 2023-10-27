@@ -28,8 +28,5 @@ def calculateE(precision):
 if __name__ == "__main__":
     precision = 1000
     my_e = calculateE(precision)
-    # print(*my_e, sep="")
-    print(my_e[0], end=".")
-    for digit in range(1, len(my_e)):
-        print(my_e[digit], end="")
-    print()
+    my_e.insert(1,".")
+    print(*my_e, sep="")
