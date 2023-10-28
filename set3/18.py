@@ -12,23 +12,31 @@ def oddPalindromLength(numArray, leftIndex, rightIndex):
             else:
                 break
             #end if
+        else:
+            break
         #end if
         i += 1
     #end while
+    # print(numArray[leftIndex - i + 1: rightIndex + i])        # this prints current palindrom
     return paliLen
 
 def solution(numArray):
     arrayLen = len(numArray)
     maxLen = 0
     
-    for i in range(arrayLen - 1):
-        if isOdd(numArray[i]):
-            currentPaliLen = 0
-            if numArray[i] == numArray[i + 1]:
-                currentPaliLen = oddPalindromLength(numArray, i, i + 1)
-            else:
-                currentPaliLen = oddPalindromLength(numArray, i - 1, i + 1) + 1
-            #end if
+    for leftIndex in range(arrayLen - 1):
+        if isOdd(numArray[leftIndex]):
+            currentPaliLen = 1
+            rightIndex = leftIndex + 1
+            while rightIndex < arrayLen:
+                if numArray[rightIndex] == numArray[rightIndex - 1]:
+                    rightIndex += 1
+                    currentPaliLen += 1
+                else:
+                    break
+                #end if
+            #end while
+            currentPaliLen += oddPalindromLength(numArray, leftIndex - 1, rightIndex)
             maxLen = max(maxLen, currentPaliLen)
         #end if
     #end for
@@ -39,7 +47,7 @@ if __name__ == "__main__":
     print(solution(numArray))
     numArray = [2,4,5,3,1,1,3,5]
     print(solution(numArray))
-    numArray = [2,4,3,1,3,5,3,3,1,3,5]
+    numArray = [2,4,3,1,3,5,3,1,3,5]
     print(solution(numArray))
     numArray = [3,3,4,4,4,4,4]
     print(solution(numArray))
