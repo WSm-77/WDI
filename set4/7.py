@@ -1,8 +1,9 @@
-def findMinElement(tab, collumnIndexTab, reachedEnd):
+def findMinElement(tab, collumnIndexTab):
     minRowIndex = -1
     minElement = 0
-    for row in range(len(collumnIndexTab)):
-        if reachedEnd[row]:
+    tabLen = len(collumnIndexTab)
+    for row in range(tabLen):
+        if collumnIndexTab[row] == tabLen:
             continue
         #end if
         currentElement = tab[row][collumnIndexTab[row]]
@@ -16,14 +17,11 @@ def findMinElement(tab, collumnIndexTab, reachedEnd):
 def fillSecondTabAscending(tab):
     tabLen = len(tab)
     collumnIndexTab = [0 for _ in range(tabLen)]
-    reachedEnd = [False for _ in range(tabLen)]
     tab2 = [0 for _ in range(tabLen*tabLen)]
     for tab2Index in range(tabLen*tabLen):
-        minElementRow = findMinElement(tab, collumnIndexTab, reachedEnd)
+        minElementRow = findMinElement(tab, collumnIndexTab)
         tab2[tab2Index] = tab[minElementRow][collumnIndexTab[minElementRow]]
         collumnIndexTab[minElementRow] += 1
-        if collumnIndexTab[minElementRow] == tabLen:
-            reachedEnd[minElementRow] = True
         #end if
     #end for
     return tab2
