@@ -12,6 +12,7 @@ def findMinIndex(tab, collumIndexesTab, reachedEnd):
     while not isUniqe and not everyReachedEnd(reachedEnd):
         minIndex = findNotReached(reachedEnd)
         isUniqe = True
+        notUniqeNumber = 0
         for rowIndex in range(minIndex + 1, indexTabLen):
             if reachedEnd[rowIndex]:
                 continue
@@ -19,27 +20,28 @@ def findMinIndex(tab, collumIndexesTab, reachedEnd):
             currentNumber = tab[rowIndex][collumIndexesTab[rowIndex]]
             if currentNumber == tab[minIndex][collumIndexesTab[minIndex]]:
                 isUniqe = False
-
-                #updating indexes for duplicated numbers
-                collumIndexesTab[minIndex] += 1
-                if collumIndexesTab[minIndex] == indexTabLen:
-                    reachedEnd[minIndex] = True
-                #end if
-                for updateIndex in range(rowIndex, indexTabLen):
-                    if currentNumber != tab[updateIndex][collumIndexesTab[updateIndex]]:
-                        continue
-                    #end if
-                    collumIndexesTab[updateIndex] += 1
-                    if collumIndexesTab[updateIndex] == indexTabLen:
-                        reachedEnd[updateIndex] = True
-                    #end if
-                #end for
-                break       #for rowIndex in range(minIndex + 1, indexTabLen):
-            #end if
-            if currentNumber < tab[minIndex][collumIndexesTab[minIndex]]:
+                notUniqeNumber = currentNumber
+            elif currentNumber < tab[minIndex][collumIndexesTab[minIndex]]:
                 minIndex = rowIndex
+                isUniqe = True
             #end if
         #end for
+
+        #update not reached tab
+        if not isUniqe:
+            for updateIndex in range(minIndex, indexTabLen):
+                if reachedEnd[updateIndex]:
+                    continue
+                #end if
+                if notUniqeNumber != tab[updateIndex][collumIndexesTab[updateIndex]]:
+                    continue
+                #end if
+                collumIndexesTab[updateIndex] += 1
+                if collumIndexesTab[updateIndex] == indexTabLen:
+                    reachedEnd[updateIndex] = True
+                #end if
+            #end for
+        #end if
     #end while
     return minIndex
 
