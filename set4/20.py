@@ -1,3 +1,7 @@
+##################
+# wrong solution #
+##################
+
 def rowSum(tab, R):
     tabLen = len(tab)
     sum = 0
@@ -43,6 +47,45 @@ def solution(tab):
     #end for
     return ((firstRookRowIndex, firstRookCollIndex), (secondRookRowIndex, secondRookCollIndex))
 
+####################
+# correct solution #
+####################
+
+def getRookPos(tab):
+    tabLen = len(tab)
+    linearTabLen = tabLen * tabLen
+    rook1Pos = rook2Pos = None
+    maxSum = -1
+    for i in range(linearTabLen - 1):
+        for j in range(i + 1, linearTabLen):
+            R1row = i // tabLen
+            R1coll = i % tabLen
+            R2row = j // tabLen
+            R2coll = j % tabLen
+            currentSum = -2 * (tab[R1row][R1coll] + tab[R2row][R2coll])
+            if R1row == R2row:
+                for k in range(tabLen):
+                    currentSum -= tab[R1row][k]
+                #end for
+            elif R1coll == R2coll:
+                for k in range(tabLen):
+                    currentSum -= tab[k][R1coll]
+                #end for
+            # else:
+            currentSum -= tab[R1row][R2coll] + tab[R2row][R1coll]
+            for k in range(tabLen):
+                currentSum += tab[R1row][k] + tab[R2row][k] + tab[k][R1coll] + tab[k][R2coll]
+            #end for
+            #end if
+            if currentSum > maxSum:
+                maxSum = currentSum
+                rook1Pos = (R1row, R1coll)
+                rook2Pos = (R2row, R2coll)
+            #end if
+        #end for
+    #end for
+    return (rook1Pos, rook2Pos)
+
 if __name__ == "__main__":
     tab = [[1,0,3,4,5],
            [1,4,27,0,5],
@@ -50,7 +93,8 @@ if __name__ == "__main__":
            [0,5,2,4,3],
            [1,1,1,1,0]]
 
-    print(solution(tab))
+    # print(solution(tab))
+    print(getRookPos(tab))
 
     tab = [[2,0,0,0,0],
            [0,0,2,0,0],
@@ -58,14 +102,16 @@ if __name__ == "__main__":
            [0,2,0,2,0],
            [0,0,2,2,0]]
     
-    print(solution(tab))
+    # print(solution(tab))
+    print(getRookPos(tab))
     
     tab = [[0,1000,1000,1000],
            [1000,0,0,0],
            [0,1000,1000,1000],
            [1000,0,0,0]]
     
-    print(solution(tab))
+    # print(solution(tab))
+    print(getRookPos(tab))
 
     tab =   [[1, 2, 3, 4, 5, 6, 7],
             [24, 25, 26, 27, 28, 29, 8],
@@ -75,4 +121,5 @@ if __name__ == "__main__":
             [20, 37, 36, 35, 34, 33, 12],
             [19, 18, 17, 16, 15, 14, 13]]
     
-    print(solution(tab))
+    # print(solution(tab))
+    print(getRookPos(tab))
