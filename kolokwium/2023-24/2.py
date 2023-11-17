@@ -7,30 +7,6 @@ def valid_row_and_coll(T, R, C):
     #end for
     return myRowSum == myCollSum == 45      # 1+2+3+4+5+6+7+8+9=45
 
-# def valid_row(T, R):
-#     digits = [0 for _ in range(9)]
-#     for i in range(9):
-#         currentNum = T[R][i]
-#         if digits[currentNum - 1] > 0:
-#             return False
-#         else:
-#             digits[currentNum - 1] += 1
-#         #end if
-#     #end for
-#     return True
-
-# def valid_coll(T, C):
-#     digits = [0 for _ in range(9)]
-#     for i in range(9):
-#         currentNum = T[i][C]
-#         if digits[currentNum - 1] > 0:
-#             return False
-#         else:
-#             digits[currentNum - 1] += 1
-#         #end if
-#     #end for
-#     return True
-
 def compareSmallSqRowAndColl(sudo, currR, currC, validRowIndex, validCollIndex):
     
     for elementRow in range(3):
@@ -61,15 +37,17 @@ def sudoku(sudo):
                 if not valid_row_and_coll(sudo, 3 * curretnSmallSqRow + element, 3 * currentSmallSqColl + element):
                     validSmallSq = False
                     break
+                #end if
             #end for
             if validSmallSq:
                 validSmallSqRowIndex = curretnSmallSqRow
                 validSmallSqCollIndex = currentSmallSqColl
                 break
             #end if
+        #end for
         if validSmallSq:
             break
-        #end for
+    #end for
 
     for smallSqRowIndex in range(3):
         if smallSqRowIndex == validSmallSqRowIndex:
