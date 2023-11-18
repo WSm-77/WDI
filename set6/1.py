@@ -1,7 +1,7 @@
 from math import isqrt
 
 def isPrime(num):
-    if num == 2:
+    if num == 2 or num ==3 :
         return True
     if num < 2 or num % 2 == 0 or num % 3 == 0:
         return False
