@@ -1,20 +1,40 @@
+##################################
+# first solution (with nonlocal )#
+##################################
+
 def minimal_cost_to_reach_7th_row(T, C):
     minCost = float('inf')
 
-    def move_king(T, C, R, currentCost):
+    def move_king(C, R, currentCost):
         if not 0<= C < 8:
             return
-        if R == 6:
+        if R == 7:
             nonlocal minCost
-            minCost = min(minCost, currentCost)
+            minCost = min(minCost, currentCost + T[R][C])
             return
         
-        move_king(T, C - 1, R + 1, currentCost + T[R][C])
-        move_king(T, C, R + 1, currentCost + T[R][C])
-        move_king(T, C + 1, R + 1, currentCost + T[R][C])
+        move_king(C - 1, R + 1, currentCost + T[R][C])
+        move_king(C, R + 1, currentCost + T[R][C])
+        move_king(C + 1, R + 1, currentCost + T[R][C])
     #end def
-    move_king(T, C, 0, 0)
+    move_king(C, 0, 0)
     return minCost
+
+######################################
+# second solution (without nonlocal) #
+######################################
+
+def min_cost(T, C, R=0, cost=0):
+    if R == 7:
+        return T[R][C]
+    left = right = float('inf')
+    if C > 0:
+        left = min_cost(T, C - 1, R + 1, cost)
+    if C < 7:
+        right = min_cost(T, C + 1, R + 1, cost)
+    
+    middle = min_cost(T, C, R + 1, cost)
+    return min(left, middle, right) + T[R][C]
 
 if __name__ == "__main__":
     T = [[15, 17, 11, 15, 15, 19, 6, 9],
@@ -27,4 +47,5 @@ if __name__ == "__main__":
         [2, 9, 10, 19, 19, 7, 8, 15]]
     
     for i in range(8):
-        print(minimal_cost_to_reach_7th_row(T, i))
+        print("first solution (nonlocal):", minimal_cost_to_reach_7th_row(T, i))
+        print("second solution (without nonlocal):", min_cost(T, i))
