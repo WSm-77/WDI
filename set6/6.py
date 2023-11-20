@@ -1,7 +1,9 @@
 def min_sum_of_elements_and_indexes(T):
     minNumberOfElements=float('inf')
-    def rek(index, numberOfElements, sumOfElements, sumOfIndexes):
-        print("index:", index, "number of elements:", numberOfElements, "sum of ele:", sumOfElements, "sum of ind:", sumOfIndexes)
+    used = []
+    def rek(index, numberOfElements, sumOfElements, sumOfIndexes, used):
+        # print(used)
+        print("index:", index, "number of elements:", numberOfElements, "sum of ele:", sumOfElements, "sum of ind:", sumOfIndexes, used)
         if sumOfElements == sumOfIndexes and numberOfElements > 0:
             nonlocal minNumberOfElements
             if numberOfElements < minNumberOfElements:
@@ -13,8 +15,8 @@ def min_sum_of_elements_and_indexes(T):
         if index == len(T):
             return None
         else:
-            case1 = rek(index + 1, numberOfElements, sumOfElements, sumOfIndexes)
-            case2 = rek(index + 1, numberOfElements + 1, sumOfElements + T[index], sumOfIndexes + index)
+            case1 = rek(index + 1, numberOfElements, sumOfElements, sumOfIndexes, used)
+            case2 = rek(index + 1, numberOfElements + 1, sumOfElements + T[index], sumOfIndexes + index, used + [index])
             if case1 != None:
                 return case1
             elif case2 != None:
@@ -23,7 +25,7 @@ def min_sum_of_elements_and_indexes(T):
                 return None
         #end if
     #end def
-    return rek(0,0,0,0)
+    return rek(0,0,0,0, used)
     
 if __name__ == "__main__":
     tab = [ 1,7,3,5,11,2 ]
