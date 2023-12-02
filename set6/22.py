@@ -1,5 +1,23 @@
 from math import isqrt
 
+def isPrime(num):
+    if num == 2 or num == 3:
+        return True
+    if num < 2 or num % 2 == 0 or num % 3 == 0:
+        return False
+    div = 5
+    iroot = isqrt(num)
+    while div < iroot:
+        if num % div == 0:
+            return False
+        
+        div += 2
+        if num % div == 0:
+            return False
+        div += 4
+    #end while
+    return True
+
 def jumps(T, index=0, numberOfJumps=0):
     N = len(T)
     if index == N - 1:
@@ -9,8 +27,8 @@ def jumps(T, index=0, numberOfJumps=0):
     
     currentNum = T[index]
     div = 2
-    iroot = isqrt(currentNum)
-    while div <= iroot + 1 and div != T[index]:
+    result = -1
+    while div <= isqrt(currentNum):
         if currentNum % div == 0:
             result = jumps(T, index + div, numberOfJumps + 1)
             if result > -1:
@@ -21,9 +39,12 @@ def jumps(T, index=0, numberOfJumps=0):
             #end while
         #end if
         div += 1
+    else:
+        if isPrime(currentNum) and currentNum != T[index]:
+            result = jumps(T, index + currentNum, numberOfJumps + 1)
     #end while
 
-    return -1
+    return result
 
 if __name__ == "__main__":
     tab = [6,1,1,4,5,9,1,1,7]
