@@ -5,15 +5,18 @@ def valid_distance(r, point):
 
 def center_of_mass(T, r):
     found = False
-    def rek(T, r, index = 0, sumOfMasses = (0,0,0), numberOfUsedPoints = 0):
+    def rek(T, r, index = 0, usedPoints = [], sumOfMasses = (0,0,0), numberOfUsedPoints = 0):
 
         nonlocal found
-
-        if numberOfUsedPoints >= 3 and valid_distance(r, (sumOfMasses[0] / numberOfUsedPoints, \
-                                                          sumOfMasses[1] / numberOfUsedPoints, \
-                                                          sumOfMasses[2] / numberOfUsedPoints)):     # we don't divide by 0, cuz sumOfMasses >= 3
-            found = True
-            return
+        if numberOfUsedPoints >= 3:
+            centerOfMass = (sumOfMasses[0] / numberOfUsedPoints, \
+                                      sumOfMasses[1] / numberOfUsedPoints, \
+                                      sumOfMasses[2] / numberOfUsedPoints)    # we don't divide by 0, cuz sumOfMasses >= 3
+            if valid_distance(r, centerOfMass):
+                found = True
+                print(*usedPoints, sep="\n")
+                print("center of mass:", centerOfMass, "distance:", (centerOfMass[0]**2 + centerOfMass[1]**2 + centerOfMass[2]**2)**0.5)
+                return
         #end if
 
         if index == len(T):
@@ -21,10 +24,10 @@ def center_of_mass(T, r):
         #end if
 
         currentPoint = T[index]
-        rek(T, r, index + 1, (sumOfMasses[0] + currentPoint[0], sumOfMasses[1] + currentPoint[1], sumOfMasses[2] + currentPoint[2]), numberOfUsedPoints + 1)
+        rek(T, r, index + 1, usedPoints + [currentPoint], (sumOfMasses[0] + currentPoint[0], sumOfMasses[1] + currentPoint[1], sumOfMasses[2] + currentPoint[2]), numberOfUsedPoints + 1)
 
         if not found:
-            rek(T, r, index + 1, sumOfMasses, numberOfUsedPoints)
+            rek(T, r, index + 1, usedPoints, sumOfMasses, numberOfUsedPoints)
         #end if
 
     #end def
@@ -41,6 +44,6 @@ if __name__ == "__main__":
     tab = [(randint(0, 20), randint(-20, 20), randint(0, 20)) for _ in range(15)]
     print(*tab, sep="\n")
     for r in range(1, 10 + 1):
-        print("r =", r, "\b:", center_of_mass(tab, r))
+        print("r =", r, "\b:", center_of_mass(tab, r), end="\n\n")
 
 
