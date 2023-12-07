@@ -27,17 +27,25 @@ def sum_of_products(number):
         return 0
     #end if
 
-    # usedDivs = [False for _ in range(N)]
+    usedDivs = []
 
-    def calc_sum_of_products(divs, index = 0, product = 1):
+    def calc_sum_of_products(divs, used, index = 0, product = 1):
+        nonlocal usedDivs
         if index == len(divs):
-            return product if product > 1 else 0
+            if product > 1:
+                usedDivs.append(used.rstrip('*'))
+                return product
+            else:
+                return 0
         
-        return calc_sum_of_products(divs, index + 1, product * divs[index]) + calc_sum_of_products(divs, index + 1, product)
+        return calc_sum_of_products(divs, used + str(divs[index]) + '*', index + 1, product * divs[index]) + calc_sum_of_products(divs, used, index + 1, product)
     #end def
+    
+    reslut = calc_sum_of_products(divs, '')
+    print(*usedDivs, sep=' + ')
 
-    return calc_sum_of_products(divs)
-        
+    return reslut
+
 if __name__ == "__main__":
     print(sum_of_products(60))
     print(sum_of_products(70))
