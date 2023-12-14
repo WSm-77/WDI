@@ -3,14 +3,28 @@ class Node:
         self.next = my_next
         self.val = my_val
 
-def reverse(current, prev = None):
+def reverse_rek(current, prev = None):
     if current == None:
         return prev
     
     nextElement = current.next
     current.next = prev
 
-    return reverse(nextElement, current)
+    return reverse_rek(nextElement, current)
+
+def reverse_it(current, prev = None):
+    while current != None:
+        nextElement = current.next
+        current.next = prev
+        prev = current
+        current = nextElement
+    return prev
+
+def print_list(first):
+    while first != None:
+        print(first.val)
+        first = first.next
+    #end while
 
 if __name__ == "__main__":
     elements = [Node(None, i + 1) for i in range(5)]
@@ -21,18 +35,14 @@ if __name__ == "__main__":
     #end for
     elements[4] = None
 
-    firstCp = first
-    while firstCp != None:
-        print(firstCp.val)
-        firstCp = firstCp.next
-    #end while
+    print_list(first)
 
-    first = reverse(first)
+    first = reverse_rek(first)
 
     print("reversed:")
+    print_list(first)
 
-    firstCp = first
-    while firstCp != None:
-        print(firstCp.val)
-        firstCp = firstCp.next
-    #end while
+    first = reverse_it(first)
+
+    print("re-reversed:")
+    print_list(first)
