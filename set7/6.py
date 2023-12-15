@@ -1,3 +1,6 @@
+# Zadanie 6. Proszę napisać funkcję wstawiającą na koniec listy nowy element. Do funkcji należy przekazać
+# wskazanie na pierwszy element listy oraz wstawianą wartość.
+
 class Node:
     def __init__(self, v) -> None:
         self.val = v

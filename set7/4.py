@@ -1,3 +1,5 @@
+# Zadanie 4. Proszę napisać funkcję, która dla podanej listy odsyłaczowej odwraca kolejność jej elementów.
+
 class Node:
     def __init__(self, my_next, my_val) -> None:
         self.next = my_next
