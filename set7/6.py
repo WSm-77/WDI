@@ -18,12 +18,16 @@ def append(ptr, element):
     ptr.next = Node(element)
     return begining
 
-def print_list(first):
+def print_list(ptr):
     print("your list:")
-    while first != None:
-        print(first.val)
-        first = first.next
+    if ptr == None:
+        print("list is empty")
+    result = ''
+    while ptr != None:
+        result += str(ptr.val) + ', '
+        ptr = ptr.next
     #end while
+    print(result.rstrip(', '))
 
 if __name__ == "__main__":
     tab = [4,2,6,1,6,7,2]
