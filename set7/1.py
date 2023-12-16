@@ -4,9 +4,9 @@
 # 3. usunięcie elementu ze zbioru
 
 class Node:
-    def __init__(self, v) -> None:
+    def __init__(self, v = None, n = None) -> None:
         self.val = v
-        self.next = None
+        self.next = n
 
 def member(ptr, element):
     while ptr != None and ptr.val < element:
@@ -63,10 +63,56 @@ def print_list(ptr):
     print("your list:")
     if ptr == None:
         print("list is empty")
+        return
     while ptr != None:
-        print(ptr.val)
+        print(ptr.val, end=' -> ')
         ptr = ptr.next
     #end while
+    print('END')
+        
+##########################
+# solution with guardian #
+##########################
+        
+def init_guradian_list():
+    return Node(None, None)
+
+def print_guradian_list(ptr):
+    print("GUARDIAN", end=' -> ')
+    while ptr.next != None:
+        print(ptr.next.val, end=' -> ')
+        ptr = ptr.next
+    #end while
+    print("END")
+
+def guardian_member(ptr, ele):
+    while ptr.next != None and ptr.next.val < ele:
+        ptr = ptr.next
+    #end while
+    return ptr.next.val == ele
+
+def guardian_add(ptr, ele):
+    start = ptr
+    while ptr.next != None and ptr.next.val < ele:
+        ptr = ptr.next
+    #end while
+    if ptr.next == None or ptr.next.val != ele:
+        newElement = Node(ele, ptr.next)
+        ptr.next = newElement
+    #end if
+    return start
+
+def guardian_remove(ptr, ele):
+    start = ptr
+    while ptr.next != None and ptr.next.val < ele:
+        ptr = ptr.next
+    #end while
+    if ptr.next != None and ptr.next.val == ele:
+        tmp = ptr.next
+        ptr.next = ptr.next.next
+        tmp.next = None
+    #end if
+    return start
 
 if __name__ == "__main__":
     tab = [11,5,2,3,7,13]
@@ -84,3 +130,35 @@ if __name__ == "__main__":
 
     print("after removing:")
     print_list(first)
+
+    ############# with guradian ###############
+
+    print("\n\nguradina solution:\n\n")
+
+    tab = [11,5,2,3,7,13,2,2,2]
+    l1 = init_guradian_list()
+    print_guradian_list(l1)
+    for ele in tab:
+        l1 = guardian_add(l1, ele)
+    #end for
+    print_guradian_list(l1)
+
+    x = 3
+    print(f"is {x} member:", guardian_member(l1, x))
+    x = 5
+    print(f"is {x} member:", guardian_member(l1, x))
+    x = 4
+    print(f"is {x} member:", guardian_member(l1, x))
+
+    print("removing...")
+    for ele in tab[2:5]:
+        l1 = guardian_remove(l1, ele)
+    #end for
+    print_guradian_list(l1)
+
+    x = 3
+    print(f"is {x} member:", guardian_member(l1, x))
+    x = 5
+    print(f"is {x} member:", guardian_member(l1, x))
+    x = 4
+    print(f"is {x} member:", guardian_member(l1, x))
