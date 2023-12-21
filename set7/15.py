@@ -1,3 +1,6 @@
+# Zadanie 15. Proszę napisać funkcję, która otrzymując jako parametr wskazujący na początek listy jednokierunkowej, usuwa z niej wszystkie elementy, w których wartość klucza w zapisie trójkowym ma większą
+# ilość jedynek niż dwójek.
+
 import usefuleFunctions as uf
 
 def more_1_than_2_in_trinary(num):

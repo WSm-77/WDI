@@ -1,10 +1,7 @@
 # Zadanie 10. Liczby naturalne reprezentowane jak poprzednim zadaniu. Proszę napisać funkcję dodającą
 # dwie takie liczby. W wyniku dodawania dwóch liczb powinna powstać nowa lista.
 
-class Node:
-    def __init__(self, v=None, n=None) -> None:
-        self.val = v
-        self.next = n
+import usefuleFunctions as uf
 
 def guradian_list_len(linkedList):
     cnt = 0
@@ -35,7 +32,7 @@ def add_numbers(num1, num2):
             currentVal = ptr1.val + ptr2.val
             ptrToNextEle, rest = add_rek(ptr1.next, ptr2.next, cnt)
         #end if
-        newElement = Node(currentVal + rest, ptrToNextEle)
+        newElement = uf.Node(currentVal + rest, ptrToNextEle)
         if newElement.val >= 10:
             newElement.val -= 10
             return (newElement, 1)
@@ -43,48 +40,48 @@ def add_numbers(num1, num2):
             return (newElement, 0)
         #end if
     #end def
-    numberAffterAddition = init_guradian_list()
+    numberAffterAddition = uf.init_guradian_list()
     numberAffterAddition.next, rest = add_rek(num1.next, num2.next, lenDifference)
     if rest == 1:
-        firstElement = Node(1, numberAffterAddition.next)
-        numberAffterAddition.next = firstElement
+        numberAffterAddition.next = uf.Node(1, numberAffterAddition.next)
     #end if
     return numberAffterAddition
 
-####################
-# helper functions #
-####################
-
-def list_to_linked_list(elemList):
-    guardian = Node(None, None)
-    ptr = guardian
-    for ele in elemList:
-        ptr.next = Node(ele)
-        ptr = ptr.next
-    #end for
-    return guardian
-
-def init_guradian_list():
-    return Node(None, None)
-
-def print_guradian_number(ptr):
-    # print("GUARDIAN", end=' -> ')
-    while ptr.next != None:
-        print(ptr.next.val, end='')
-        ptr = ptr.next
-    #end while
-    print()
-
 if __name__ == "__main__":
     num = [4,2,6,1,5,7,9]
-    listNum1 = init_guradian_list()
-    listNum1 = list_to_linked_list(num)
-    print_guradian_number(listNum1)
+    listNum1 = uf.list_to_linked_list(num)
+    uf.print_guradian_number(listNum1, myEnd=' + ')
    
     num = [1,2,3,4,1]
     listNum2 = None
-    listNum2 = list_to_linked_list(num)
-    print_guradian_number(listNum2)
+    listNum2 = uf.list_to_linked_list(num)
+    uf.print_guradian_number(listNum2, myEnd = ' = ')
 
     listOfAddedNumbers = add_numbers(listNum1, listNum2)
-    print_guradian_number(listOfAddedNumbers)
+    uf.print_guradian_number(listOfAddedNumbers)
+
+
+    num = [1,1,1,1,1]
+    listNum1 = uf.list_to_linked_list(num)
+    uf.print_guradian_number(listNum1, myEnd=' + ')
+   
+    num = [9,9,9,9,9]
+    listNum2 = None
+    listNum2 = uf.list_to_linked_list(num)
+    uf.print_guradian_number(listNum2, myEnd = ' = ')
+
+    listOfAddedNumbers = add_numbers(listNum1, listNum2)
+    uf.print_guradian_number(listOfAddedNumbers)
+
+
+    num = [1,1,1,1]
+    listNum1 = uf.list_to_linked_list(num)
+    uf.print_guradian_number(listNum1, myEnd=' + ')
+   
+    num = [2,2,2,2,2]
+    listNum2 = None
+    listNum2 = uf.list_to_linked_list(num)
+    uf.print_guradian_number(listNum2, myEnd = ' = ')
+
+    listOfAddedNumbers = add_numbers(listNum1, listNum2)
+    uf.print_guradian_number(listOfAddedNumbers)

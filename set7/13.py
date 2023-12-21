@@ -1,3 +1,7 @@
+# Zadanie 13. Proszę napisać funkcję, otrzymującą jako parametr wskaźnik na pierwszy element listy o
+# wartościach typu int, usuwającą wszystkie elementy, których wartość jest mniejsza od wartości bezpośrednio
+# poprzedzających je elementów.
+
 import usefuleFunctions as uf
 
 ######################

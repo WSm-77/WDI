@@ -1,3 +1,8 @@
+# Zadanie 14. Proszę napisać funkcję, otrzymującą jako parametr wskaźnik na pierwszy element listy o
+# wartościach typu int, usuwającą wszystkie elementy, których wartość dzieli bez reszty wartość bezpośrednio
+# następujących po nich elementów.
+
+
 import usefuleFunctions as uf
 
 def remove_following_if_divideable_by_current(g) -> uf.Node:

@@ -1,7 +1,9 @@
-class Node:
-    def __init__(self, v = None, n = None) -> None:
-        self.val = v
-        self.next = n
+# Zadanie 12. Zbiór mnogościowy zawierający napisy jest reprezentowany w postaci jednokierunkowej listy.
+# Napisy w łańcuchu są uporządkowane leksykograficznie. Proszę napisać stosowne definicje typów oraz funkcję
+# dodającą napis do zbioru. Do funkcji należy przekazać wskaźnik do listy oraz wstawiany napis, funkcja
+# powinna zwrócić wartość logiczną wskazującą, czy w wyniku operacji moc zbioru uległa zmianie.
+
+import usefuleFunctions as uf
 
 def compare_strings(str1, str2) -> bool:                # returns 1 if first string is "bigger", 0 if strings are the same, -1 otherwise
     str1Len = len(str1)
@@ -40,30 +42,15 @@ def add_string(g, string) -> bool:
         #end match
     #end while
 
-    newElement = Node(string, g.next)
+    newElement = uf.Node(string, g.next)
     g.next = newElement
     
     return True
 
-####################
-# helper functions #
-####################
-
-def print_guradian_list(ptr):
-    print("GUARDIAN", end=' -> ')
-    while ptr.next != None:
-        print(ptr.next.val, end=' -> ')
-        ptr = ptr.next
-    #end while
-    print("END")
-
-def init_guradian_list():
-    return Node(None, None)
-
 if __name__ == "__main__":
     tab = ['ala','ma','malego','kota','i','duzego','psa','ma','mama','ps','kota','duzego']
-    myList = init_guradian_list()
+    myList = uf.init_guradian_list()
     for ele in tab:
         print("string:", add_string(myList, ele))
     #end for
-    print_guradian_list(myList)
+    uf.print_guradian_list(myList)

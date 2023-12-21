@@ -17,7 +17,7 @@ def add(head, element):
     
     newElement = Node(element)
     
-    if tail == None:                #adding at begening of the list
+    if tail == None:                #adding at beginning of the list
         newElement.next = head
         originalFirst = newElement
     else:                           #adding in middle of the list

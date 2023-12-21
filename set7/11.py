@@ -1,3 +1,7 @@
+# Zadanie 11. Lista zawiera niepowtarzające się elementy. Proszę napisać funkcję do której przekazujemy
+# wskaźnik na początek oraz wartość klucza. Jeżeli element o takim kluczu występuje w liście należy go usunąć
+# z listy. Jeżeli elementu o zadanym kluczu brak w liście należy element o takim kluczu wstawić do listy
+
 class Node:
     def __init__(self, k = None, n = None) -> None:
         self.key = k
