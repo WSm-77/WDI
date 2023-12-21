@@ -19,28 +19,41 @@ def move_to_beginning(g) -> uf.Node:
     # end if
     endOf5Odd = g
     ptr = g.next
-    while ptr.next != None:
-        print("pointer value:", ptr.val)
-        if even_number_of_5_in_octal(ptr.next.val):
-            tmp = ptr.next.next
-            ptr.next.next = endOf5Odd.next
-            endOf5Odd.next = ptr.next
-            endOf5Odd = endOf5Odd.next
-            ptr.next = tmp
-            if endOf5Odd == ptr:
+    prev = g
+    while ptr != None:
+        if even_number_of_5_in_octal(ptr.val):
+            if endOf5Odd.next is ptr:
+                prev = endOf5Odd = ptr
                 ptr = ptr.next
+            else:
+                tmp = ptr.next
+                ptr.next = endOf5Odd.next
+                endOf5Odd.next = ptr
+                endOf5Odd = endOf5Odd.next
+                ptr = tmp
+                prev.next = ptr
+            #end if
         else:
+            prev = ptr
             ptr = ptr.next
         #end if
-        uf.print_guradian_list(g)
     #end while
     return g
 
 if __name__ == "__main__":
     tab = [i for i in range(15)]
-    # for i in range(len(tab)):
-    #     print(i, even_number_of_5_in_octal(tab[i]))
-    # #end for
+    for i in range(len(tab)):
+        print(f"does {tab[i]} have odd number of 5 in octal:", even_number_of_5_in_octal(tab[i]))
+    #end for
+    myList = uf.list_to_linked_list(tab)
+    uf.print_guradian_list(myList)
+    myList = move_to_beginning(myList)
+    uf.print_guradian_list(myList)
+
+    tab = [5,13,21,1,2,3,5,5,7,5,6]
+    for i in range(len(tab)):
+        print(f"does {tab[i]} have odd number of 5 in octal:", even_number_of_5_in_octal(tab[i]))
+    #end for
     myList = uf.list_to_linked_list(tab)
     uf.print_guradian_list(myList)
     myList = move_to_beginning(myList)
