@@ -7,67 +7,46 @@ import usefuleFunctions as uf
 
 
 def consolidate(interval1, interval2) -> tuple:
+    if interval1[1] - interval1[0] > interval2[1] - interval2[0]:
+        interval1, interval2 = interval2, interval1
+    #end if
     intersection = interval1
+    modified = False
     if interval2[0] <= interval1[0] <= interval2[1]:
+        modified = True
         intersection = (interval2[0], max(interval1[1], interval2[1]))
     elif interval2[0] <= interval1[1] <= interval2[1]:
+        modified = True
         intersection = (min(interval1[0], interval2[0]), interval2[1])
     #end if
-    return intersection
+    return intersection, modified
 
 def reduce(g):
-    firstPtr = g.next
-    firstPrev = g
-    while firstPtr != None:
-        secondPtr = g.next
-        changed = 0
-        currentInterval = firstPtr.val
-        while secondPtr is not firstPtr:
-            intersection = consolidate(currentInterval, secondPtr.val)
-            if intersection != currentInterval:
-                changed = 1
-                secondPtr.val = intersection
-                currentInterval = intersection
-                thirdPrev = secondPtr
-                thirdPtr = secondPtr.next
-
-                # thirdPtr is used new interval intersects more than one of previosuly checked intervals
-                while thirdPtr is not firstPtr:
-                    intersection = consolidate(currentInterval, thirdPtr.val)
-                    if intersection != currentInterval:
-                        secondPtr.val = intersection
-                        if thirdPtr.next is not firstPtr:
-                            thirdPrev.next = thirdPtr.next
-                            thirdPtr.next = None
-                        else:
-                            firstPrev = thirdPrev
-                            thirdPrev.next = firstPtr.next
-                            firstPtr = firstPtr.next
-                            thirdPtr.next.next = None
-                            thirdPtr.next = None
-                            changed = 2
-                        #end if
-                        break
-                    #end if
-                    thirdPrev = thirdPtr
-                    thirdPtr = thirdPtr.next
-                #end while
-                    
-                break
+    modified = True
+    while modified:
+        modified = False
+        ptr = g
+        while ptr.next != None:
+            secondPtr = g
+            changed = False
+            currentInterval = ptr.next.val
+            while secondPtr is not ptr:
+                intersection, doIntersect = consolidate(currentInterval, secondPtr.next.val)
+                if doIntersect:
+                    modified = changed = True
+                    secondPtr.next.val = intersection
+                    break
+                #end if
+                secondPtr = secondPtr.next
+            #end while
+            if changed:
+                tmp = ptr.next
+                ptr.next = ptr.next.next
+                tmp.next = None
+            else:
+                ptr = ptr.next
             #end if
-            secondPtr = secondPtr.next
         #end while
-        match changed:
-            case 0:
-                firstPrev = firstPtr
-                firstPtr = firstPtr.next
-            case 1:
-                firstPrev.next = firstPtr.next
-                firstPtr.next = None
-                firstPtr = firstPrev.next
-            case 2:
-                pass
-        #end match
     #end while
     return g
 
