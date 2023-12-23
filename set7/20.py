@@ -5,8 +5,6 @@
 
 import usefuleFunctions as uf
 
-# def do_intercect(interval1, interval2):
-#     return interval2[0] <= interval1[0] <= interval2[1] or interval2[0] <= interval1[1] <= interval2[1]
 
 def consolidate(interval1, interval2) -> tuple:
     intersection = interval1
@@ -18,34 +16,40 @@ def consolidate(interval1, interval2) -> tuple:
     return intersection
 
 def reduce(g):
-    ptr = g
-    while ptr.next != None:
-        secondPtr = g
-        changed = False
-        tmp1 = tmp2 = uf.Node()
-        currentInterval = ptr.next.val
-        while secondPtr is not ptr:
-            intersection = consolidate(currentInterval, secondPtr.next.val)
+    firstPtr = g.next
+    firstPrev = g
+    while firstPtr != None:
+        secondPtr = g.next
+        changed = 0
+        currentInterval = firstPtr.val
+        while secondPtr is not firstPtr:
+            intersection = consolidate(currentInterval, secondPtr.val)
             if intersection != currentInterval:
-                changed = True
-                secondPtr.next.val = intersection
+                changed = 1
+                secondPtr.val = intersection
                 currentInterval = intersection
+                thirdPrev = secondPtr
                 thirdPtr = secondPtr.next
 
                 # thirdPtr is used new interval intersects more than one of previosuly checked intervals
-                while thirdPtr is not ptr:
-                    intersection = consolidate(currentInterval, thirdPtr.next.val)
+                while thirdPtr is not firstPtr:
+                    intersection = consolidate(currentInterval, thirdPtr.val)
                     if intersection != currentInterval:
-                        secondPtr.next.val = intersection
-                        if thirdPtr.next is not ptr:
-                            tmp = thirdPtr.next
-                            thirdPtr.next = thirdPtr.next.next
-                            tmp.next = None
+                        secondPtr.val = intersection
+                        if thirdPtr.next is not firstPtr:
+                            thirdPrev.next = thirdPtr.next
+                            thirdPtr.next = None
                         else:
-                            changed2 = True
+                            firstPrev = thirdPrev
+                            thirdPrev.next = firstPtr.next
+                            firstPtr = firstPtr.next
+                            thirdPtr.next.next = None
+                            thirdPtr.next = None
+                            changed = 2
                         #end if
                         break
                     #end if
+                    thirdPrev = thirdPtr
                     thirdPtr = thirdPtr.next
                 #end while
                     
@@ -53,23 +57,17 @@ def reduce(g):
             #end if
             secondPtr = secondPtr.next
         #end while
-        # uf.print_guradian_list(g)
-        if changed:
-            if changed2:
-                tmp = ptr
-                ptr = ptr.next
-                tmp.next = None
-                tmp = ptr
-                ptr = ptr.next
-                tmp.next = None
-            else:
-                tmp = ptr.next
-                ptr.next = ptr.next.next
-                tmp.next = None
-            #end if
-        else:
-            ptr = ptr.next
-        #end if
+        match changed:
+            case 0:
+                firstPrev = firstPtr
+                firstPtr = firstPtr.next
+            case 1:
+                firstPrev.next = firstPtr.next
+                firstPtr.next = None
+                firstPtr = firstPrev.next
+            case 2:
+                pass
+        #end match
     #end while
     return g
 
@@ -81,11 +79,12 @@ if __name__ == "__main__":
     uf.print_guradian_list(myList)
 
     tab = [(15,19), (2,5), (4,16), (20,21)]
-    # for i in range(len(tab) - 1):
-    #     for j in range(i + 1, len(tab)):
-    #         print(tab[i], tab[j], consolidate(tab[i], tab[j]))
-    # #end for
-    
+    myList = uf.list_to_linked_list(tab)
+    uf.print_guradian_list(myList)
+    myList = reduce(myList)
+    uf.print_guradian_list(myList)
+
+    tab = [(1,2), (3,4), (5,6), (7,8), (1, 20)]
     myList = uf.list_to_linked_list(tab)
     uf.print_guradian_list(myList)
     myList = reduce(myList)
