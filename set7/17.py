@@ -11,21 +11,25 @@ class Node:
 
 
 def list_to_bi_directional_list(tab) -> Node:
-    g = Node()
+    N = len(tab)
+    if N == 0:
+        return None
+    
+    g = Node(tab[0], None, None)
     ptr = g
-    for ele in tab:
-        ptr.next = Node(ele, ptr, None)
+    for i in range(1,N):
+        ptr.next = Node(tab[i], ptr, None)
         ptr = ptr.next
     #end for
     return g
 
-def print_guradian_bi_directional_list(ptr) -> None:
-    result = "END <- GUARDIAN <-> "
-    while ptr.next != None:
-        result += str(ptr.next.val) + ' <-> '
+def print_bi_directional_list(ptr) -> None:
+    result = "END <- "
+    while ptr != None:
+        result += str(ptr.val) + ' <-> '
         ptr = ptr.next
     #end while
-    result =result[:-5] + " -> END"
+    result = result[:-5] + " -> END"
     print(result)
 
 def is_number_of_1_in_binary_odd(num) -> bool:
@@ -37,31 +41,33 @@ def is_number_of_1_in_binary_odd(num) -> bool:
     return cnt1 % 2 == 1
 
 def special_remove(g) -> Node:
+    if g == None:
+        return None
+    
     ptr = g
-    while ptr.next != None:
-        if is_number_of_1_in_binary_odd(ptr.next.val):
-            tmp = ptr.next
-            if ptr.next.next != None:
-                ptr.next.next.prev = ptr
+    while ptr != None:
+        tmp = ptr.next
+        if is_number_of_1_in_binary_odd(ptr.val):
+            if ptr.next != None:
+                ptr.next.prev = ptr.prev
             #end if
-            ptr.next = ptr.next.next
-            tmp.next = tmp.prev = None
-        else:
-            ptr = ptr.next
+            if ptr.prev != None:
+                ptr.prev.next = ptr.next
+            else:
+                g = ptr.next
+            ptr.next = ptr.prev = None
         #end if
+        ptr = tmp
     #end while
     return g
 
 if __name__ == "__main__":
     tab = [i + 1 for i in range(10)]
-    for i in range(len(tab)):
-        isOdd = is_number_of_1_in_binary_odd(tab[i])
-        myEnd = (' X\n' if isOdd else '\n')
-        print("should be removed?", i + 1, not isOdd, end=myEnd)
-    #end for
+    shouldBeRemoved = [ele for ele in tab if is_number_of_1_in_binary_odd(ele)]
+    print("should be removed:", *shouldBeRemoved)
     print()
     myList = list_to_bi_directional_list(tab)
-    print_guradian_bi_directional_list(myList)
+    print_bi_directional_list(myList)
     myList = special_remove(myList)
-    print_guradian_bi_directional_list(myList)
+    print_bi_directional_list(myList)
 
