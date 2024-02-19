@@ -11,11 +11,11 @@ def print_tree_rek(ptr: fun.Node) -> None:
 		if ptr == None:
 			return
 		
-		print(ptr.val, end=" ")
-
-		rek(ptr.right)
 		rek(ptr.left)
+		print(ptr.val, end=" ")
+		rek(ptr.right)
 	#end def
+	
 	rek(ptr)
 	print("\n")
 
